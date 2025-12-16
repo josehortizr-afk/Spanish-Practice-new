@@ -1,0 +1,2109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spanish Practice</title>
+  <style>
+    :root{
+      --bg:#f8faff;
+      --card:#ffffff;
+      --border:#e0e4f0;
+      --text:#1e293b;
+      --muted:#64748b;
+      --primary:#6366f1;
+      --primary-dark:#4f46e5;
+      --success:#10b981;
+      --error:#ef4444;
+      --warning:#f59e0b;
+      --shadow:0 1px 3px rgba(0,0,0,0.1);
+      --shadow-lg:0 10px 25px rgba(0,0,0,0.1);
+    }
+    [data-theme="dark"]{
+      --bg:#0f172a;
+      --card:#1e293b;
+      --border:#334155;
+      --text:#f1f5f9;
+      --muted:#94a3b8;
+      --shadow:0 1px 3px rgba(0,0,0,0.3);
+      --shadow-lg:0 10px 25px rgba(0,0,0,0.3);
+    }
+    @keyframes slideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+    @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+    @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-30px) scale(1.1)}66%{transform:translate(-20px,20px) scale(0.9)}}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(37,99,235,.08), transparent 40%),
+    radial-gradient(1000px 500px at 80% 0%, rgba(96,165,250,.10), transparent 45%),
+    linear-gradient(180deg, #f8faff 0%, #eef3ff 100%);
+  color: var(--text);
+}
+    .container{max-width:1100px;margin:0 auto;padding:0 18px}
+    header{
+      background:var(--card);
+      padding:24px;
+      border-radius:8px;
+      margin-bottom:20px;
+      border:1px solid var(--border);
+    }
+    h1{
+      font-size:28px;
+      font-weight:600;
+      margin-bottom:8px;
+      color:var(--text);
+    }
+    .subtitle{
+      font-size:14px;
+      color:var(--muted);
+      margin:0 0 12px 0;
+    }
+    .stats{
+      display:flex;
+      gap:16px;
+      justify-content:space-around;
+      padding:16px;
+      background:var(--bg);
+      border-radius:6px;
+      margin:0 0 12px 0;
+    }
+    .stat-item{text-align:center}
+    .stat-number{
+      font-size:24px;
+      font-weight:600;
+      color:var(--text);
+    }
+    .stat-label{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+    .tabs{
+      display:flex;
+      gap:8px;
+      margin-bottom:20px;
+      border-bottom:1px solid var(--border);
+      padding-bottom:0;
+      flex-wrap:wrap;
+    }
+    .tab{
+      padding:10px 16px;
+      cursor:pointer;
+      font-weight:500;
+      font-size:14px;
+      color:var(--muted);
+      border-bottom:2px solid transparent;
+      transition:all .2s;
+    }
+    .tab:hover{color:var(--text)}
+    .tab.active{
+      color:var(--primary);
+      border-bottom-color:var(--primary);
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      padding:24px;
+      border-radius:8px;
+      margin-bottom:20px;
+    }
+    .btn{
+      border:1px solid var(--border);
+      background:white;
+      color:var(--text);
+      padding:10px 18px;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:500;
+      font-size:14px;
+      transition:all .2s;
+    }
+    .btn:hover{
+      background:var(--bg);
+      transform:translateY(-1px);
+    }
+    .btn:active{transform:translateY(0)}
+    .btn.primary{
+      background:var(--primary);
+      border-color:var(--primary);
+      color:white;
+    }
+    .btn.primary:hover{background:var(--primary-dark)}
+    .btn.small{padding:6px 12px;font-size:13px}
+    .btn[disabled]{
+      opacity:0.5;
+      cursor:not-allowed;
+      transform:none;
+      background:#f0f0f0;
+    }
+    select{
+      width:100%;
+      max-width:520px;
+      padding:10px;
+      border:1px solid var(--border);
+      border-radius:6px;
+      background:white;
+      font-size:14px;
+      cursor:pointer;
+      margin:0 0 12px 0;
+    }
+    .flashcard-wrapper{
+      perspective:1000px;
+      min-height:260px;
+      margin:16px auto;
+      max-width:720px;
+    }
+    .flashcard{
+      position:relative;
+      width:100%;
+      height:280px;
+      transition:transform .6s;
+      transform-style:preserve-3d;
+      cursor:pointer;
+    }
+    .flashcard.flipped{transform:rotateY(180deg)}
+    .flashcard-face{
+      position:absolute;
+      width:100%;
+      height:100%;
+      backface-visibility:hidden;
+      border-radius:8px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:40px;
+      border:1px solid var(--border);
+      background:white;
+    }
+    .flashcard-front{background:#fafafa}
+    .flashcard-back{transform:rotateY(180deg)}
+    .flashcard-text{
+      font-size:34px;
+      font-weight:700;
+      text-align:center;
+      color:var(--text);
+    }
+    .flashcard-sub{
+      margin-top:12px;
+      font-size:14px;
+      color:var(--muted);
+      text-align:center;
+    }
+    .tag{
+      display:inline-block;
+      font-size:12px;
+      padding:4px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--muted);
+      background:white;
+      margin-top:14px;
+    }
+    .flashcard-hint{
+      position:absolute;
+      bottom:16px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .card-counter{
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+      margin:0 0 12px 0;
+    }
+    .controls{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      margin-top:20px;
+      flex-wrap:wrap;
+    }
+    .prompt{
+      font-size:24px;
+      font-weight:700;
+      margin-bottom:18px;
+      text-align:center;
+      color:var(--text);
+    }
+    .options{
+      display:grid;
+      gap:12px;
+      grid-template-columns:repeat(2, 1fr);
+      margin-bottom:20px;
+    }
+    .option{
+      padding:16px;
+      border-radius:6px;
+      border:1px solid var(--border);
+      background:white;
+      cursor:pointer;
+      font-weight:600;
+      font-size:16px;
+      text-align:center;
+      transition:all .2s;
+    }
+    .option:hover{
+      border-color:var(--primary);
+      background:var(--bg);
+    }
+    .option.correct{
+      background:var(--success);
+      border-color:var(--success);
+      color:white;
+    }
+    .option.wrong{
+      background:var(--error);
+      border-color:var(--error);
+      color:white;
+    }
+    .feedback{
+      text-align:center;
+      font-size:18px;
+      font-weight:600;
+      margin:16px 0;
+      min-height:30px;
+    }
+    .audio-btn{
+      padding:30px 45px;
+      font-size:2em;
+      border:2px solid var(--border);
+      background:white;
+      border-radius:50%;
+      cursor:pointer;
+      transition:all .2s;
+      margin:0 auto 18px;
+      display:block;
+    }
+    .audio-btn:hover{
+      background:var(--primary);
+      border-color:var(--primary);
+      transform:scale(1.1);
+    }
+    .table-container{overflow-x:auto;margin-top:16px}
+    table{width:100%;border-collapse:collapse;background:white}
+    th{
+      background:var(--bg);
+      padding:12px;
+      text-align:left;
+      font-weight:700;
+      font-size:13px;
+      border:1px solid var(--border);
+    }
+    td{
+      padding:12px;
+      border:1px solid var(--border);
+      font-size:14px;
+      vertical-align:top;
+    }
+    tr:nth-child(even){background:var(--bg)}
+    .category-header{
+      background:var(--primary);
+      color:white;
+      font-weight:700;
+      text-align:center;
+    }
+    .how-to-box{
+      background:#e3f2fd;
+      border-radius:8px;
+      padding:12px 16px;
+      font-size:14px;
+      margin:0 0 12px 0;
+      border:1px solid #bbdefb;
+    }
+    .how-to-box strong{display:block;margin-bottom:4px}
+    .how-to-steps{list-style:none;padding-left:0}
+    .how-to-steps li{margin-bottom:4px}
+    @media (max-width: 600px){
+      .options{grid-template-columns:1fr}
+      .stats{flex-direction:column;gap:8px}
+    }
+    /* Scramble */
+    .chips{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .chip{
+      border:1px solid var(--border);
+      background:#fff;
+      padding:8px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      user-select:none;
+      font-weight:600;
+      font-size:14px;
+      transition:transform .06s ease, box-shadow .12s ease;
+    }
+    .chip:active{ transform:scale(.98); }
+    .chip.disabled{
+      opacity:.35;
+      cursor:default;
+    }
+    .dropzone{
+      border:1px dashed var(--border);
+      background:rgba(255,255,255,.6);
+      border-radius:16px;
+      padding:12px;
+      margin-top:10px;
+      min-height:52px;
+    }
+    .hint{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:6px;
+    }
+  /* ===== Form the Phrase: part-of-speech highlighting ===== */
+  .chip.role-article { border-style: solid; border-width: 2px; }
+  .chip.role-noun { border-style: dashed; border-width: 2px; }
+  .chip.role-verb { border-style: solid; border-width: 2px; box-shadow: 0 0 0 2px rgba(0,0,0,0.06) inset; }
+  .chip.role-adj { border-style: dotted; border-width: 2px; }
+  .pos-key { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; color: var(--muted); font-size: 13px; }
+  .pos-key span { display:inline-flex; align-items:center; gap:6px; }
+  .pos-sample { width:18px; height:18px; border-radius:999px; background: #fff; display:inline-block; }
+  .pos-sample.article { border:2px solid currentColor; }
+  .pos-sample.noun { border:2px dashed currentColor; }
+  .pos-sample.verb { border:2px solid currentColor; box-shadow: 0 0 0 2px rgba(0,0,0,0.06) inset; }
+  .pos-sample.adj { border:2px dotted currentColor; }
+    .select-block{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:8px;
+      max-width:720px;
+      margin:0 auto 10px auto;
+    }
+  /* ===== Layout spacing (match reference) ===== */
+  .wrap{padding:28px 0 40px 0}
+  .hero{padding:28px 28px 22px 28px;border:1px solid var(--border);border-radius:14px;background:#fff}
+  .hero h1{font-size:40px;line-height:1.05;margin:0 0 10px 0}
+  .hero p{margin:0;color:var(--muted);font-size:16px}
+  .tabs{margin-top:18px}
+  .panel{padding:26px 26px 22px 26px;border-radius:14px}
+  .select-block{max-width:760px;margin:0 auto 14px auto}
+  select{max-width:760px}
+  .flashcard-wrapper{max-width:760px;min-height:300px;margin:18px auto}
+  .flashcard{min-height:300px}
+  .flashcard .word{font-size:44px}
+  .btn-row,.flashcard-controls{margin-top:14px}
+  @media (max-width: 800px){
+    .hero{padding:22px}
+    .hero h1{font-size:34px}
+    .panel{padding:18px}
+    .flashcard-wrapper{min-height:260px}
+    .flashcard{min-height:260px}
+    .flashcard .word{font-size:38px}
+  }
+  /* ===== Center column for all tabs ===== */
+  .content-center{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .content-center label{
+    display:block;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .content-center .section-title{
+    font-size:16px;
+    font-weight:700;
+    margin:0 0 10px 0;
+  }
+  .center-row{
+    display:flex;
+    justify-content:center;
+  }
+  .content-center .controls,
+  .content-center .btn-row,
+  .content-center .flashcard-controls{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .content-center select{width:100%; max-width:760px}
+  .content-center label{ text-align:left; }
+  .content-center .select-block{ margin:0 auto 14px auto; }
+  /* Align tabs with hero / content center */
+  .tabs{
+    display:flex;
+    justify-content:center;
+  }
+  .tabs-inner{
+    width:100%;
+    max-width:760px;
+    padding:0 16px;
+    display:flex;
+    gap:22px;
+  }
+  /* ===== Extra blue visual accents ===== */
+  /* Header accent line */
+  .hero::after{
+    content:"";
+    display:block;
+    height:4px;
+    width:64px;
+    margin-top:14px;
+    background: linear-gradient(90deg, var(--primary), #60a5fa);
+    border-radius:4px;
+  }
+  /* Panel top accent */
+  .panel{
+    position:relative;
+  }
+  .panel::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:3px;
+    background: linear-gradient(90deg, rgba(37,99,235,.35), rgba(96,165,250,.15));
+    border-radius:14px 14px 0 0;
+  }
+  /* Flashcard subtle gradient */
+  .flashcard{
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  }
+  /* Active word emphasis */
+  .flashcard .word{
+    color: var(--primary);
+  }
+  /* Buttons focus glow */
+  .btn.primary{
+    box-shadow:
+      0 6px 16px rgba(37,99,235,.25),
+      inset 0 -1px 0 rgba(255,255,255,.25);
+  }
+  /* Tabs underline animation feel */
+  .tab.active{
+    box-shadow: inset 0 -3px 0 var(--primary);
+  }
+  /* Progress / counters */
+  .card-counter{
+    color: var(--primary);
+    font-weight:600;
+  }
+  /* Database table headers */
+  table thead th{
+    background: linear-gradient(180deg, var(--primary-weak), #ffffff);
+    color: var(--primary);
+  }
+  /* Links */
+  a{
+    color: var(--primary);
+  }
+  /* ===== Typography & dark mode ===== */
+  :root{
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    --radius: 14px;
+  }
+  html, body{ font-family: var(--font); }
+  h1, h2, h3, h4{ letter-spacing: -0.02em; }
+  .hero h1{ font-weight: 800; }
+  .panel h3{ font-size: 20px; }
+  .hint{ font-size: 14px; }
+  .btn{ font-size: 14px; padding: 10px 14px; border-radius: 12px; }
+  select{ font-size: 14px; border-radius: 12px; }
+  .flashcard .word{ font-weight: 800; }
+  .chip{ font-size: 14px; }
+  table{ font-size: 14px; }
+  table thead th{ font-weight: 700; }
+  /* Dark theme variables (applied via [data-theme="dark"]) */
+  [data-theme="dark"]{
+    --bg: #0b1220;
+    --card: rgba(17,24,39,.72);
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --border: rgba(148,163,184,.18);
+    --primary:#60a5fa;
+    --primary-weak: rgba(96,165,250,.16);
+    --shadow: 0 18px 40px rgba(0,0,0,.35);
+    --shadow-soft: 0 12px 26px rgba(0,0,0,.28);
+  }
+  [data-theme="dark"] body{
+    background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(96,165,250,.16), transparent 42%),
+      radial-gradient(1000px 520px at 80% 0%, rgba(37,99,235,.18), transparent 45%),
+      linear-gradient(180deg, #070b14 0%, #0b1220 100%);
+    color: var(--text);
+  }
+  [data-theme="dark"] .hero,
+  [data-theme="dark"] .panel,
+  [data-theme="dark"] .card,
+  [data-theme="dark"] .flashcard{
+    background: var(--card);
+    border-color: var(--border);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(10px);
+  }
+  [data-theme="dark"] table tbody tr:hover{ background: rgba(96,165,250,.06); }
+  [data-theme="dark"] .tab:hover{ background: rgba(96,165,250,.12); }
+  [data-theme="dark"] .chip{ background: rgba(255,255,255,.04); }
+  /* Theme toggle */
+  .theme-toggle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .switch{
+    width: 44px;
+    height: 26px;
+    border-radius: 999px;
+    background: rgba(15,23,42,.10);
+    border: 1px solid rgba(15,23,42,.16);
+    position: relative;
+    cursor: pointer;
+    transition: all .2s ease;
+    flex: 0 0 auto;
+  }
+  .switch::after{
+    content:"";
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: #fff;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    box-shadow: 0 6px 16px rgba(15,23,42,.18);
+    transition: all .2s ease;
+  }
+  [data-theme="dark"] .switch{
+    background: rgba(96,165,250,.18);
+    border-color: rgba(96,165,250,.25);
+  }
+  [data-theme="dark"] .switch::after{
+    background: #0b1220;
+    left: 22px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.35);
+  }
+  /* Slightly bigger default on large screens */
+  @media (min-width: 900px){
+    .hero h1{ font-size: 44px; }
+    .flashcard .word{ font-size: 52px; }
+  }
+  /* ===== Compact select menu ===== */
+  .menu-compact{
+    max-width: 420px;
+    margin: 0 auto 12px auto;
+  }
+  .menu-compact select{
+    max-width: 420px;
+  }
+  /* ===== Center Form the Phrase ===== */
+  .content-center h3,
+  .content-center .hint,
+  .content-center .stats-line,
+  .content-center .clue,
+  .content-center .english,
+  .content-center .card-counter{
+    text-align: center;
+  }
+  .content-center .chips,
+  .content-center .controls,
+  .content-center .btn-row{
+    justify-content: center;
+  }
+  .content-center .answer-box{
+    margin: 14px auto;
+    max-width: 720px;
+  }
+  /* ===== Form the Phrase: centered column + reduced width ===== */
+  .form-area{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .form-area h3{ text-align:left; }
+  .form-area .hint{ text-align:left; }
+  .form-area #formCounters{ justify-content:flex-start !important; }
+  .form-area .dropzone,
+  .form-area .chips,
+  .form-area .feedback,
+  .form-area .pos-key{
+    max-width: 720px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .form-area .controls{
+    justify-content:flex-start !important;
+  }
+  @media (max-width: 800px){
+    .form-area{ padding: 0 12px; }
+    .form-area .dropzone,
+    .form-area .chips{ max-width: 100%; }
+  }
+  /* ===== Database: reduced width + aligned like Flashcards ===== */
+  .db-area{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .db-area h3, .db-area h4{ text-align:left; }
+  .db-area .table-container{ width:100%; overflow:auto; border:1px solid var(--border); border-radius:12px; background:var(--card); box-shadow: var(--shadow-soft); }
+  .db-area table{ width:100%; border-collapse:collapse; min-width:640px; }
+  .db-area th{ background: linear-gradient(180deg, var(--primary-weak), rgba(255,255,255,.6)); color: var(--primary); }
+  .db-area th, .db-area td{ padding: 12px 14px; }
+  @media (max-width: 800px){
+    .db-area{ padding: 0 12px; }
+    .db-area table{ min-width: 520px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Spanish Practice Pro 🇪🇸</h1>
+      <p class="subtitle">Master Spanish with interactive flashcards, quizzes, and smart practice</p>
+      
+      <!-- Flashcard Progress Counter -->
+      <div style="margin-top:16px;padding:24px;background:var(--bg);border-radius:12px;border:1px solid var(--border)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div>
+            <div style="font-weight:700;font-size:18px;color:var(--text)">📚 Progress</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:2px">Cards reviewed in this session</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:32px;font-weight:800;color:var(--primary)" id="cardCounter">0</div>
+            <div style="font-size:12px;color:var(--muted)">cards</div>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:13px;font-weight:600;color:var(--text)">Session Progress</span>
+            <span style="font-size:13px;font-weight:700;color:var(--primary)" id="progressPercent">0%</span>
+          </div>
+          <div style="height:10px;background:var(--border);border-radius:5px;overflow:hidden">
+            <div id="progressBar" style="height:100%;background:linear-gradient(90deg,#667eea,#10b981);border-radius:5px;width:0%;transition:width 0.5s"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Theme Toggle and Speed Control -->
+      <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+        <button class="btn small" id="themeToggle" style="display:flex;align-items:center;gap:6px">
+          <span id="themeIcon">🌙</span> <span id="themeLabel">Dark Mode</span>
+        </button>
+        <select id="speechSpeed" style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:white;font-size:13px;font-weight:600">
+          <option value="0.5">🔊 0.5x</option>
+          <option value="0.75">🔊 0.75x</option>
+          <option value="1" selected>🔊 1x</option>
+          <option value="1.25">🔊 1.25x</option>
+        </select>
+      </div>
+      
+      </div>
+    </header>
+    <div class="tabs" id="tabs"></div>
+    <div class="card" id="view"></div>
+  </div>
+  <script>
+    // ===== Quiz levels =====
+    const quizLevels = [
+      { key: "small", label: "Small (Quick)", count: 25 },
+      { key: "medium", label: "Medium (Standard)", count: 50 },
+      { key: "large", label: "Large (Challenge)", count: 75 },
+    ];
+
+
+    // ===== Theme (light/dark) =====
+    const getSystemTheme = () => (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    const applyTheme = (t) => {
+      document.documentElement.setAttribute('data-theme', t);
+      const label = document.getElementById('themeLabel');
+      if (label) label.textContent = t === 'dark' ? 'Dark' : 'Light';
+      try { localStorage.setItem('sp_theme', t); } catch(e) {}
+    };
+    const initTheme = () => {
+      let t = 'light';
+      try { t = localStorage.getItem('sp_theme') || getSystemTheme(); } catch(e) { t = getSystemTheme(); }
+      applyTheme(t);
+      const sw = document.getElementById('themeSwitch');
+      const toggle = () => {
+        const cur = document.documentElement.getAttribute('data-theme') || 'light';
+        applyTheme(cur === 'dark' ? 'light' : 'dark');
+      };
+      if (sw){
+        sw.addEventListener('click', toggle);
+        sw.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') toggle(); });
+      }
+      // If user hasn't set a preference, follow system changes
+      try{
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        mq.addEventListener('change', () => {
+          const saved = localStorage.getItem('sp_theme');
+          if (!saved) applyTheme(getSystemTheme());
+        });
+      }catch(e){}
+    };
+  // ===== Adjectives Database (imported) =====
+  const adjectives = {
+      'Physical Description': [
+        { word: 'alto/a', wordEn: 'tall (person) / high (object)', masculine: 'alto', feminine: 'alta' },
+        { word: 'bajo/a', wordEn: 'short (height) / low', masculine: 'bajo', feminine: 'baja' },
+        { word: 'delgado/a', wordEn: 'thin', masculine: 'delgado', feminine: 'delgada' },
+        { word: 'gordo/a', wordEn: 'fat', masculine: 'gordo', feminine: 'gorda' },
+        { word: 'fuerte', wordEn: 'strong', masculine: 'fuerte', feminine: 'fuerte' },
+        { word: 'débil', wordEn: 'weak', masculine: 'débil', feminine: 'débil' },
+        { word: 'joven', wordEn: 'young', masculine: 'joven', feminine: 'joven' },
+        { word: 'viejo/a', wordEn: 'old', masculine: 'viejo', feminine: 'vieja' },
+        { word: 'guapo/a', wordEn: 'good-looking', masculine: 'guapo', feminine: 'guapa' },
+        { word: 'feo/a', wordEn: 'ugly', masculine: 'feo', feminine: 'fea' }
+      ],
+      'Personality & Character': [
+        { word: 'simpático/a', wordEn: 'nice, friendly', masculine: 'simpático', feminine: 'simpática' },
+        { word: 'tímido/a', wordEn: 'shy', masculine: 'tímido', feminine: 'tímida' },
+        { word: 'serio/a', wordEn: 'serious', masculine: 'serio', feminine: 'seria' },
+        { word: 'divertido/a', wordEn: 'fun', masculine: 'divertido', feminine: 'divertida' },
+        { word: 'aburrido/a', wordEn: 'boring', masculine: 'aburrido', feminine: 'aburrida' },
+        { word: 'inteligente', wordEn: 'smart', masculine: 'inteligente', feminine: 'inteligente' },
+        { word: 'tonto/a', wordEn: 'silly', masculine: 'tonto', feminine: 'tonta' },
+        { word: 'trabajador(a)', wordEn: 'hardworking', masculine: 'trabajador', feminine: 'trabajadora' },
+        { word: 'perezoso/a', wordEn: 'lazy', masculine: 'perezoso', feminine: 'perezosa' },
+        { word: 'amable', wordEn: 'kind', masculine: 'amable', feminine: 'amable' },
+        { word: 'tranquilo/a', wordEn: 'calm', masculine: 'tranquilo', feminine: 'tranquila' },
+        { word: 'hablador(a)', wordEn: 'talkative', masculine: 'hablador', feminine: 'habladora' }
+      ],
+      'Size & Shape': [
+        { word: 'grande', wordEn: 'big', masculine: 'grande', feminine: 'grande' },
+        { word: 'pequeño/a', wordEn: 'small', masculine: 'pequeño', feminine: 'pequeña' },
+        { word: 'largo/a', wordEn: 'long', masculine: 'largo', feminine: 'larga' },
+        { word: 'corto/a', wordEn: 'short (length)', masculine: 'corto', feminine: 'corta' },
+        { word: 'ancho/a', wordEn: 'wide', masculine: 'ancho', feminine: 'ancha' },
+        { word: 'pesado/a', wordEn: 'heavy', masculine: 'pesado', feminine: 'pesada' },
+        { word: 'redondo/a', wordEn: 'round', masculine: 'redondo', feminine: 'redonda' },
+        { word: 'cuadrado/a', wordEn: 'square', masculine: 'cuadrado', feminine: 'cuadrada' }
+      ],
+      'Condition & Quality': [
+        { word: 'limpio/a', wordEn: 'clean', masculine: 'limpio', feminine: 'limpia' },
+        { word: 'sucio/a', wordEn: 'dirty', masculine: 'sucio', feminine: 'sucia' },
+        { word: 'nuevo/a', wordEn: 'new', masculine: 'nuevo', feminine: 'nueva' },
+        { word: 'viejo/a', wordEn: 'old (thing)', masculine: 'viejo', feminine: 'vieja' },
+        { word: 'roto/a', wordEn: 'broken', masculine: 'roto', feminine: 'rota' },
+        { word: 'abierto/a', wordEn: 'open', masculine: 'abierto', feminine: 'abierta' },
+        { word: 'cerrado/a', wordEn: 'closed', masculine: 'cerrado', feminine: 'cerrada' },
+        { word: 'mojado/a', wordEn: 'wet', masculine: 'mojado', feminine: 'mojada' },
+        { word: 'seco/a', wordEn: 'dry', masculine: 'seco', feminine: 'seca' },
+        { word: 'lleno/a', wordEn: 'full', masculine: 'lleno', feminine: 'llena' }
+      ],
+      'Physical & Emotional States': [
+        { word: 'cansado/a', wordEn: 'tired', masculine: 'cansado', feminine: 'cansada' },
+        { word: 'enfermo/a', wordEn: 'sick', masculine: 'enfermo', feminine: 'enferma' },
+        { word: 'bien', wordEn: 'well', masculine: 'bien', feminine: 'bien' },
+        { word: 'mal', wordEn: 'unwell', masculine: 'mal', feminine: 'mal' },
+        { word: 'feliz', wordEn: 'happy', masculine: 'feliz', feminine: 'feliz' },
+        { word: 'triste', wordEn: 'sad', masculine: 'triste', feminine: 'triste' },
+        { word: 'preocupado/a', wordEn: 'worried', masculine: 'preocupado', feminine: 'preocupada' },
+        { word: 'enojado/a', wordEn: 'angry', masculine: 'enojado', feminine: 'enojada' },
+        { word: 'contento/a', wordEn: 'happy, pleased', masculine: 'contento', feminine: 'contenta' },
+        { word: 'nervioso/a', wordEn: 'nervous', masculine: 'nervioso', feminine: 'nerviosa' },
+        { word: 'emocionado/a', wordEn: 'excited', masculine: 'emocionado', feminine: 'emocionada' },
+        { word: 'relajado/a', wordEn: 'relaxed', masculine: 'relajado', feminine: 'relajada' },
+        { word: 'asustado/a', wordEn: 'scared', masculine: 'asustado', feminine: 'asustada' },
+        { word: 'aburrido/a', wordEn: 'bored', masculine: 'aburrido', feminine: 'aburrida' },
+        { word: 'sorprendido/a', wordEn: 'surprised', masculine: 'sorprendido', feminine: 'sorprendida' }
+      ]
+    };
+    const $ = (s) => document.querySelector(s);
+
+    // ===== Flashcard formatting =====
+    const getFlashcardFront = (card) => {
+      // Adjectives: show masculine + feminine when different (alto / alta, bajo / baja)
+      if (card && card.kind === "adjective") {
+        const m = (card.es_m || "").trim();
+        const f = (card.es_f || "").trim();
+        if (m && f && m.toLowerCase() !== f.toLowerCase()) return `${m} / ${f}`;
+        return m || f || card.es || "";
+      }
+      return card.es || "";
+    };
+    const getFlashcardBack = (card) => (card.en || "");
+    const $$ = (s) => document.querySelectorAll(s);
+    // EXACT vocabulary from your sheet (Spanish -> English).
+    const vocab = {
+      "Saludos (Greetings)": [
+        { es: "¡Hola!", en: "Hello!", note: "" },
+        { es: "Buenos días.", en: "Good morning.", note: "" },
+        { es: "Buenas tardes.", en: "Good afternoon.", note: "" },
+        { es: "Buenas noches.", en: "Good evening.", note: "" }
+      ],
+      "Preguntas (Questions)": [
+        { es: "¿Qué tal?", en: "How’s it going?", note: "" },
+        { es: "¿Cómo estás?", en: "How are you?", note: "informal" },
+        { es: "¿Cómo está usted?", en: "How are you?", note: "formal" },
+        { es: "Estoy bien.", en: "I’m fine.", note: "" },
+        { es: "¿Y tú?", en: "And you?", note: "informal" },
+        { es: "¿Y usted?", en: "And you?", note: "formal" },
+        { es: "¿Cómo te llamas?", en: "What is your name?", note: "informal" },
+        { es: "¿Cómo se llama usted?", en: "What is your name?", note: "formal" },
+        { es: "Me llamo ____.", en: "My name is ____.", note: "" },
+        { es: "Mucho gusto.", en: "It’s nice to meet you.", note: "" },
+        { es: "El gusto es mío.", en: "The pleasure is mine.", note: "" },
+        { es: "¿De dónde eres?", en: "Where are you from?", note: "informal" },
+        { es: "¿De dónde es usted?", en: "Where are you from?", note: "formal" },
+        { es: "Soy de ____.", en: "I am from ____.", note: "" }
+      ],
+      "Despedidas (Farewells)": [
+        { es: "¡Adiós!", en: "Goodbye!", note: "" },
+        { es: "Hasta luego.", en: "See you later.", note: "" },
+        { es: "Nos vemos.", en: "We’ll see each other.", note: "" },
+        { es: "Hasta luego.", en: "See you later.", note: "" },
+        { es: "Hasta pronto.", en: "See you soon.", note: "" },
+        { es: "Hasta mañana.", en: "See you tomorrow.", note: "" }
+      ]
+    };
+    // Flatten all items
+    let allItems = [];
+    Object.keys(vocab).forEach(cat => {
+      vocab[cat].forEach(item => allItems.push({ ...item, category: cat }));
+    });
+    // Add adjectives to allItems with proper structure
+    Object.keys(adjectives).forEach(cat => {
+      adjectives[cat].forEach(adj => {
+        allItems.push({
+          kind: 'adjective',
+          category: cat,
+          es: adj.word,
+          es_m: adj.masculine,
+          es_f: adj.feminine,
+          en: adj.wordEn
+        });
+      });
+    });
+    // State
+    let state = {
+      mode: "flashcards",
+      category: "All Categories",
+      cardsReviewed: 0,
+      totalCards: 0,
+      deck: [],
+      currentIndex: 0,
+      flipped: false
+    };
+    // Quiz state
+    let quiz = {
+      active: false,
+      deck: [],
+      idx: 0,
+      correct: 0,
+      answers: []
+    };
+    const shuffle = (arr) => {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+    const speak = (text) => {
+      if (!("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "es-ES";
+      u.rate = 0.85;
+      window.speechSynthesis.speak(u);
+    };
+    const updateStats = () => {
+      const counterEl = $("#cardCounter");
+      const percentEl = $("#progressPercent");
+      const progressBar = $("#progressBar");
+      
+      if (counterEl) counterEl.textContent = state.cardsReviewed;
+      
+      // Calculate percentage based on total cards in current deck
+      const percentage = state.totalCards > 0 
+        ? Math.round((state.cardsReviewed / state.totalCards) * 100) 
+        : 0;
+      
+      if (percentEl) percentEl.textContent = percentage + '%';
+      if (progressBar) progressBar.style.width = percentage + '%';
+    };
+    const getItems = () => {
+      if (state.category === "All Categories") return allItems;
+      return allItems.filter(x => x.category === state.category);
+    };
+    // ===== Scramble pool: ALL database vocabulary (Greetings + Adjectives) =====
+    const getScrambleItems = () => {
+      const items = [];
+      // greetings/farewells phrases
+      Object.keys(vocab).forEach(cat => {
+        vocab[cat].forEach(it => items.push({ es: it.es, en: it.en, note: it.note || "" }));
+      });
+      // adjectives (masc + fem)
+      if (typeof adjectives !== "undefined") {
+        Object.keys(adjectives).forEach(cat => {
+          adjectives[cat].forEach(it => {
+            if (it.masculine) items.push({ es: it.masculine, en: `${it.wordEn} (m)`, note: cat });
+            if (it.feminine)  items.push({ es: it.feminine,  en: `${it.wordEn} (f)`, note: cat });
+          });
+        });
+      }
+      // de-dupe by Spanish
+      const seen = new Set();
+      return items.filter(x => {
+        const k = (x.es || "").trim();
+        if (!k || seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
+    };
+    // ===== Form the Phrase: basic sentences using ONLY adjectives from the database =====
+    const formPhraseItems = [
+      { es: 'la ropa está mojada.', en: 'the clothes is wet.' },
+      { es: 'la manzana está limpia.', en: 'the apple is clean.' },
+      { es: 'la compañera es débil.', en: 'the classmate (female) is weak.' },
+      { es: 'el compañero es bajo.', en: 'the classmate (male) is short/ low.' },
+      { es: 'la pizarra está limpia.', en: 'the board is clean.' },
+      { es: 'la tía es seria.', en: 'the aunt is serious.' },
+      { es: 'el profesor es hablador.', en: 'the teacher/professor (male) is talkative.' },
+      { es: 'el pollo está nervioso.', en: 'the chicken is nervous.' },
+      { es: 'el oso está relajado.', en: 'the bear is relaxed.' },
+      { es: 'el pez está contento.', en: 'the fish is happy, pleased.' },
+      { es: 'el examen está abierto.', en: 'the test/exam is open.' },
+      { es: 'el padre está contento.', en: 'the father is happy, pleased.' },
+      { es: 'el coche es ancho.', en: 'the car is wide.' },
+      { es: 'el pato es inteligente.', en: 'the duck is smart.' },
+      { es: 'el grupo es divertido.', en: 'the group is fun.' },
+      { es: 'la señora es tranquila.', en: 'the woman (Mrs.) is calm.' },
+      { es: 'el coche es pesado.', en: 'the car is heavy.' },
+      { es: 'el pollo es débil.', en: 'the chicken is weak.' },
+      { es: 'el lápiz es largo.', en: 'the pencil is long.' },
+      { es: 'la compañera es joven.', en: 'the classmate (female) is young.' },
+      { es: 'el toro está nervioso.', en: 'the bull is nervous.' },
+      { es: 'la comida está limpia.', en: 'the food is clean.' },
+      { es: 'el chico es trabajador.', en: 'the boy is hardworking.' },
+      { es: 'el nieto es delgado.', en: 'the grandson is thin.' },
+      { es: 'la computadora está vieja.', en: 'the computer is old.' },
+      { es: 'la tortuga está emocionada.', en: 'the turtle is excited.' },
+      { es: 'la hija está asustada.', en: 'the daughter is scared.' },
+      { es: 'el estudiante está asustado.', en: 'the student is scared.' },
+      { es: 'el tío es perezoso.', en: 'the uncle is lazy.' },
+      { es: 'el león es aburrido.', en: 'the lion is boring.' },
+      { es: 'la persona está feliz.', en: 'the person is happy.' },
+      { es: 'el pato está emocionado.', en: 'the duck is excited.' },
+      { es: 'el padre es simpático.', en: 'the father is nice, friendly.' },
+      { es: 'el esposo es alto.', en: 'the husband is tall/ high.' },
+      { es: 'el libro es largo.', en: 'the book is long.' },
+      { es: 'el cuaderno es pesado.', en: 'the notebook is heavy.' },
+      { es: 'el profesor es viejo.', en: 'the teacher/professor (male) is old.' },
+      { es: 'la prima es aburrida.', en: 'the cousin (female) is boring.' },
+      { es: 'la tarea es pequeña.', en: 'the homework is small.' },
+      { es: 'la amiga es joven.', en: 'the friend (female) is young.' },
+      { es: 'la escuela está sucia.', en: 'the school is dirty.' },
+      { es: 'el cerdo es guapo.', en: 'the pig is good-looking.' },
+      { es: 'la maestra es gorda.', en: 'the teacher (female) is fat.' },
+      { es: 'la vaca está bien.', en: 'the cow is well.' },
+      { es: 'el dinero está limpio.', en: 'the money is clean.' },
+      { es: 'el grupo está feliz.', en: 'the group is happy.' },
+      { es: 'la leche es pequeña.', en: 'the milk is small.' },
+      { es: 'el señor es perezoso.', en: 'the man (Mr.) is lazy.' },
+      { es: 'el caballo está feliz.', en: 'the horse is happy.' },
+      { es: 'el pollo es guapo.', en: 'the chicken is good-looking.' },
+      { es: 'el pollo está enojado.', en: 'the chicken is angry.' },
+      { es: 'la gente es fea.', en: 'the people is ugly.' },
+      { es: 'la compañera es tímida.', en: 'the classmate (female) is shy.' },
+      { es: 'la regla está cerrada.', en: 'the ruler is closed.' },
+      { es: 'el esposo es trabajador.', en: 'the husband is hardworking.' },
+      { es: 'el compañero es viejo.', en: 'the classmate (male) is old.' },
+      { es: 'la tortuga está mal.', en: 'the turtle is unwell.' },
+      { es: 'el ratón es pequeño.', en: 'the mouse is hardworking.' },
+      { es: 'el pan está abierto.', en: 'the bread is open.' },
+      { es: 'el perro es viejo.', en: 'the dog is old.' },
+      { es: 'el examen es pequeño.', en: 'the test/exam is small.' },
+      { es: 'la hermana está emocionada.', en: 'the sister is excited.' },
+      { es: 'la gallina es aburrida.', en: 'the hen is boring.' },
+      { es: 'el agua está abierto.', en: 'the water is open.' },
+      { es: 'el esposo es simpático.', en: 'the husband is nice, friendly.' },
+      { es: 'el pez es tranquilo.', en: 'the fish is calm.' },
+      { es: 'el pájaro es gordo.', en: 'the bird is fat.' },
+      { es: 'el perro es joven.', en: 'the dog is young.' },
+      { es: 'el niño es divertido.', en: 'the child/boy is fun.' },
+      { es: 'el gato es bajo.', en: 'the cat is short/ low.' },
+      { es: 'la mamá es vieja.', en: 'the mom is old.' },
+      { es: 'la chica es trabajadora.', en: 'the girl is hardworking.' },
+      { es: 'la tía es delgada.', en: 'the aunt is thin.' },
+      { es: 'la niña es tranquila.', en: 'the child/girl is calm.' },
+      { es: 'la silla está sucia.', en: 'the chair is dirty.' },
+      { es: 'el maestro está bien.', en: 'the teacher (male) is well.' },
+      { es: 'el león es pequeño.', en: 'the lion is hardworking.' },
+      { es: 'la abuela está triste.', en: 'the grandmother is sad.' },
+      { es: 'el toro es alto.', en: 'the bull is tall/ high.' },
+      { es: 'el reloj es redondo.', en: 'the watch/clock is round.' },
+      { es: 'la silla está nueva.', en: 'the chair is new.' },
+      { es: 'la niña es joven.', en: 'the child/girl is young.' },
+      { es: 'la rana está emocionada.', en: 'the frog is excited.' },
+      { es: 'la profesora está enojada.', en: 'the teacher/professor (female) is angry.' },
+      { es: 'el coche está viejo.', en: 'the car is old.' },
+      { es: 'la gente es joven.', en: 'the people is young.' },
+      { es: 'la pizarra está cerrada.', en: 'the board is closed.' },
+      { es: 'el hermano es viejo.', en: 'the brother is old.' },
+      { es: 'la hija está cansada.', en: 'the daughter is tired.' },
+      { es: 'la hermana está enferma.', en: 'the sister is sick.' },
+      { es: 'la pizarra está mojada.', en: 'the board is wet.' },
+      { es: 'el toro está enfermo.', en: 'the bull is sick.' },
+      { es: 'la computadora es pesada.', en: 'the computer is heavy.' },
+      { es: 'la hija está nerviosa.', en: 'the daughter is nervous.' },
+      { es: 'la compañera es delgada.', en: 'the classmate (female) is thin.' },
+      { es: 'el compañero es perezoso.', en: 'the classmate (male) is lazy.' },
+      { es: 'la compañera es tranquila.', en: 'the classmate (female) is calm.' },
+      { es: 'el baño está roto.', en: 'the bathroom is broken.' },
+      { es: 'la persona es joven.', en: 'the person is young.' },
+      { es: 'el vecino es tímido.', en: 'the neighbor (male) is shy.' },
+      { es: 'el coche está lleno.', en: 'the car is full.' },
+      { es: 'el papá es fuerte.', en: 'the dad is strong.' },
+      { es: 'el baño está abierto.', en: 'the bathroom is open.' },
+      { es: 'la nieta es fea.', en: 'the granddaughter is ugly.' },
+      { es: 'el libro está mojado.', en: 'the book is wet.' },
+      { es: 'el esposo está contento.', en: 'the husband is happy, pleased.' },
+      { es: 'la carpeta es cuadrada.', en: 'the folder is square.' },
+      { es: 'el pato está relajado.', en: 'the duck is relaxed.' },
+      { es: 'la estudiante es guapa.', en: 'the student (female) is good-looking.' },
+      { es: 'la nieta es simpática.', en: 'the granddaughter is nice, friendly.' },
+      { es: 'la casa está rota.', en: 'the house is broken.' },
+      { es: 'el conejo es feo.', en: 'the rabbit is ugly.' },
+      { es: 'la rana es simpática.', en: 'the frog is nice, friendly.' },
+      { es: 'la rana es alta.', en: 'the frog is tall/ high.' },
+      { es: 'el maestro es alto.', en: 'the teacher (male) is tall/ high.' },
+      { es: 'la mariposa está enferma.', en: 'the butterfly is sick.' },
+      { es: 'el maestro está relajado.', en: 'the teacher (male) is relaxed.' },
+      { es: 'la compañera es guapa.', en: 'the classmate (female) is good-looking.' },
+      { es: 'el apartamento está seco.', en: 'the apartment is dry.' },
+      { es: 'la mesa está mojada.', en: 'the desk/table is wet.' },
+      { es: 'la gallina está enferma.', en: 'the hen is sick.' },
+      { es: 'la habitación está cerrada.', en: 'the room is closed.' },
+      { es: 'el pollo está mal.', en: 'the chicken is unwell.' },
+      { es: 'la profesora está bien.', en: 'the teacher/professor (female) is well.' },
+      { es: 'el grupo es delgado.', en: 'the group is thin.' },
+      { es: 'la carpeta es pequeña.', en: 'the folder is small.' },
+      { es: 'el abuelo está asustado.', en: 'the grandfather is scared.' },
+      { es: 'el compañero es tonto.', en: 'the classmate (male) is silly.' },
+      { es: 'el elefante es hablador.', en: 'the elephant is talkative.' },
+      { es: 'la vaca está triste.', en: 'the cow is sad.' },
+      { es: 'la gente está mal.', en: 'the people is unwell.' },
+      { es: 'la mochila es pequeña.', en: 'the backpack is small.' },
+      { es: 'el señor está aburrido.', en: 'the man (Mr.) is bored.' },
+      { es: 'la madre está enojada.', en: 'the mother is angry.' },
+      { es: 'el hijo es amable.', en: 'the son is kind.' },
+      { es: 'el bebé es hablador.', en: 'the baby is talkative.' },
+      { es: 'el tío está bien.', en: 'the uncle is well.' },
+      { es: 'la abuela está contenta.', en: 'the grandmother is happy, pleased.' },
+      { es: 'el compañero está aburrido.', en: 'the classmate (male) is bored.' },
+      { es: 'la prima es delgada.', en: 'the cousin (female) is thin.' },
+      { es: 'el tigre es serio.', en: 'the tiger is serious.' },
+      { es: 'la tía es simpática.', en: 'the aunt is nice, friendly.' },
+      { es: 'la regla está sucia.', en: 'the ruler is dirty.' },
+      { es: 'el pollo es grande.', en: 'the chicken is big.' },
+      { es: 'el oso es tranquilo.', en: 'the bear is calm.' },
+      { es: 'la hija es gorda.', en: 'the daughter is fat.' },
+      { es: 'la abuela es trabajadora.', en: 'the grandmother is hardworking.' },
+      { es: 'el caballo está aburrido.', en: 'the horse is bored.' },
+      { es: 'la prima es simpática.', en: 'the cousin (female) is nice, friendly.' },
+      { es: 'el pan es pesado.', en: 'the bread is heavy.' }
+    ];
+    // ===== 100 common nouns (family, school, friends, animals, things) =====
+    const commonNouns = [
+      { es: 'la familia', en: 'family' },
+      { es: 'la madre', en: 'mother' },
+      { es: 'el padre', en: 'father' },
+      { es: 'la mamá', en: 'mom' },
+      { es: 'el papá', en: 'dad' },
+      { es: 'el hermano', en: 'brother' },
+      { es: 'la hermana', en: 'sister' },
+      { es: 'el hijo', en: 'son' },
+      { es: 'la hija', en: 'daughter' },
+      { es: 'el abuelo', en: 'grandfather' },
+      { es: 'la abuela', en: 'grandmother' },
+      { es: 'el tío', en: 'uncle' },
+      { es: 'la tía', en: 'aunt' },
+      { es: 'el primo', en: 'cousin (male)' },
+      { es: 'la prima', en: 'cousin (female)' },
+      { es: 'el nieto', en: 'grandson' },
+      { es: 'la nieta', en: 'granddaughter' },
+      { es: 'el esposo', en: 'husband' },
+      { es: 'la esposa', en: 'wife' },
+      { es: 'el bebé', en: 'baby' },
+      { es: 'la escuela', en: 'school' },
+      { es: 'la clase', en: 'class' },
+      { es: 'el estudiante', en: 'student' },
+      { es: 'la estudiante', en: 'student (female)' },
+      { es: 'el maestro', en: 'teacher (male)' },
+      { es: 'la maestra', en: 'teacher (female)' },
+      { es: 'el profesor', en: 'teacher/professor (male)' },
+      { es: 'la profesora', en: 'teacher/professor (female)' },
+      { es: 'el salón de clases', en: 'classroom' },
+      { es: 'la tarea', en: 'homework' },
+      { es: 'el examen', en: 'test/exam' },
+      { es: 'la prueba', en: 'quiz/test' },
+      { es: 'el libro', en: 'book' },
+      { es: 'el cuaderno', en: 'notebook' },
+      { es: 'la mochila', en: 'backpack' },
+      { es: 'el lápiz', en: 'pencil' },
+      { es: 'la pluma', en: 'pen' },
+      { es: 'el borrador', en: 'eraser' },
+      { es: 'la regla', en: 'ruler' },
+      { es: 'la carpeta', en: 'folder' },
+      { es: 'la mesa', en: 'desk/table' },
+      { es: 'la silla', en: 'chair' },
+      { es: 'la pizarra', en: 'board' },
+      { es: 'la computadora', en: 'computer' },
+      { es: 'el teléfono', en: 'phone' },
+      { es: 'el amigo', en: 'friend (male)' },
+      { es: 'la amiga', en: 'friend (female)' },
+      { es: 'el grupo', en: 'group' },
+      { es: 'la persona', en: 'person' },
+      { es: 'el compañero', en: 'classmate (male)' },
+      { es: 'la compañera', en: 'classmate (female)' },
+      { es: 'el vecino', en: 'neighbor (male)' },
+      { es: 'la vecina', en: 'neighbor (female)' },
+      { es: 'el chico', en: 'boy' },
+      { es: 'la chica', en: 'girl' },
+      { es: 'el niño', en: 'child/boy' },
+      { es: 'la niña', en: 'child/girl' },
+      { es: 'la gente', en: 'people' },
+      { es: 'el señor', en: 'man (Mr.)' },
+      { es: 'la señora', en: 'woman (Mrs.)' },
+      { es: 'el perro', en: 'dog' },
+      { es: 'el gato', en: 'cat' },
+      { es: 'el pájaro', en: 'bird' },
+      { es: 'el pez', en: 'fish' },
+      { es: 'el caballo', en: 'horse' },
+      { es: 'la vaca', en: 'cow' },
+      { es: 'el toro', en: 'bull' },
+      { es: 'el cerdo', en: 'pig' },
+      { es: 'la gallina', en: 'hen' },
+      { es: 'el pollo', en: 'chicken' },
+      { es: 'el pato', en: 'duck' },
+      { es: 'el conejo', en: 'rabbit' },
+      { es: 'la tortuga', en: 'turtle' },
+      { es: 'el ratón', en: 'mouse' },
+      { es: 'el león', en: 'lion' },
+      { es: 'el tigre', en: 'tiger' },
+      { es: 'el oso', en: 'bear' },
+      { es: 'el elefante', en: 'elephant' },
+      { es: 'la mariposa', en: 'butterfly' },
+      { es: 'la rana', en: 'frog' },
+      { es: 'la casa', en: 'house' },
+      { es: 'el apartamento', en: 'apartment' },
+      { es: 'la habitación', en: 'room' },
+      { es: 'la cocina', en: 'kitchen' },
+      { es: 'el baño', en: 'bathroom' },
+      { es: 'la puerta', en: 'door' },
+      { es: 'la ventana', en: 'window' },
+      { es: 'la cama', en: 'bed' },
+      { es: 'la ropa', en: 'clothes' },
+      { es: 'los zapatos', en: 'shoes' },
+      { es: 'la comida', en: 'food' },
+      { es: 'el agua', en: 'water' },
+      { es: 'la leche', en: 'milk' },
+      { es: 'el pan', en: 'bread' },
+      { es: 'la manzana', en: 'apple' },
+      { es: 'el plátano', en: 'banana' },
+      { es: 'el coche', en: 'car' },
+      { es: 'el dinero', en: 'money' },
+      { es: 'la llave', en: 'key' },
+      { es: 'el reloj', en: 'watch/clock' }
+    ];
+    // ===== Test/Quiz pool: ALL database vocabulary =====
+    const getTestItems = () => getScrambleItems().map(x => ({
+      es: x.es,
+      en: x.en,
+      note: x.note || ""
+    }));
+    const renderTabs = () => {
+      const tabs = ["🃏 Flashcards", "📝 Quiz", "🧩 Form the Phrase", "👋 Greetings & Farewells", "📚 Database"];
+      const modes = ["flashcards", "quiz", "scramble", "greetings", "database"];
+      $("#tabs").innerHTML = tabs.map((t, i) =>
+        `<div class="tab ${state.mode === modes[i] ? "active" : ""}" onclick="setMode('${modes[i]}')">${t}</div>`
+      ).join("");
+    };
+    window.setMode = (mode) => {
+      state.mode = mode;
+      renderTabs();
+      if (mode === "flashcards") renderFlashcards();
+      if (mode === "quiz") renderQuiz();
+      if (mode === "scramble") renderScramble();
+      if (mode === "greetings") renderGreetings();
+      if (mode === "database") renderDatabase();
+};
+    window.changeCategory = (cat) => {
+      state.category = cat;
+      state.deck = [];
+      state.currentIndex = 0;
+      state.flipped = false;
+      state.cardsReviewed = 0;
+      state.totalCards = 0;
+      // reset quiz when switching categories
+      quiz.active = false;
+      quiz.asked = [];
+      quiz.idx = 0;
+      quiz.correct = 0;
+      quiz.answers = [];
+      setMode(state.mode);
+    };
+    // === FLASHCARDS ===
+    const renderFlashcards = () => {
+      const items = getItems(); // Use getItems which uses allItems with proper adjective structure
+      if (!state.deck.length) {
+        state.deck = shuffle(items);
+        state.currentIndex = 0;
+        state.totalCards = items.length;
+        state.cardsReviewed = 0;
+        updateStats();
+      }
+      const current = state.deck[state.currentIndex];
+      $("#view").innerHTML = `
+        <div class="menu-compact"><label style="display:block;font-weight:700;margin-bottom:8px;font-size:14px">Select Category</label>
+        <select onchange="changeCategory(this.value)">
+          ${["All Categories", ...Object.keys(vocab), ...Object.keys(adjectives)].map(cat =>
+            `<option value="${cat}" ${state.category === cat ? "selected" : ""}>${cat}</option>`
+          ).join("")}
+        </select></div>
+        <div class="flashcard-wrapper">
+          <div class="flashcard ${state.flipped ? "flipped" : ""}" onclick="flipCard()">
+            <div class="flashcard-face flashcard-front">
+              <div class="flashcard-text">${getFlashcardFront(current)}</div>
+              ${current.note ? `<div class="tag">${current.note}</div>` : (current.category && current.kind === 'adjective' ? `<div class="tag">${current.category}</div>` : '')}
+              ${current.kind === 'adjective' && current.es_m && current.es_f && current.es_m !== current.es_f ? `<div class="flashcard-sub" style="margin-top:8px;color:var(--muted)">masculine / feminine</div>` : ''}
+              <div class="flashcard-hint">Click to see translation</div>
+            </div>
+            <div class="flashcard-face flashcard-back">
+              <div class="flashcard-text">${getFlashcardBack(current)}</div>
+              <div class="flashcard-sub">${getFlashcardFront(current)}</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-counter">Card ${state.currentIndex + 1} of ${state.deck.length}</div>
+        <div class="controls">
+          <button class="btn" onclick="prevCard()">← Previous</button>
+          <button class="btn" onclick="playFlashcard()">🔊 Listen</button>
+          <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+          <button class="btn primary" onclick="nextCard()">Next →</button>
+        </div>
+      `;
+    };
+    window.flipCard = () => {
+      state.flipped = !state.flipped;
+      renderFlashcards();
+    };
+    window.nextCard = () => {
+      // Increment cards reviewed when moving to next card
+      if (!state.flipped) {
+        state.cardsReviewed += 1;
+      }
+      state.currentIndex = (state.currentIndex + 1) % state.deck.length;
+      state.flipped = false;
+      updateStats();
+      renderFlashcards();
+    };
+    window.prevCard = () => {
+      state.currentIndex = (state.currentIndex - 1 + state.deck.length) % state.deck.length;
+      state.flipped = false;
+      renderFlashcards();
+    };
+    window.shuffleDeck = () => {
+      state.deck = shuffle(getItems());
+      state.currentIndex = 0;
+      state.flipped = false;
+      state.totalCards = state.deck.length;
+      state.cardsReviewed = 0;
+      updateStats();
+      renderFlashcards();
+    };
+    window.playFlashcard = () => {
+      const current = state.deck[state.currentIndex];
+      speak(current.es.replace("____", "")); // speak without blank
+    };
+    // === LISTENING ===
+    let listeningQ = null;
+    const renderListening = () => loadListeningQuestion();
+    const loadListeningQuestion = () => {
+      const items = (quiz.asked && quiz.asked.length) ? quiz.asked : getTestItems();
+      listeningQ = items[Math.floor(Math.random() * items.length)];
+      const wrong = shuffle(items.filter(x => x.es !== listeningQ.es)).slice(0, 3);
+      const options = shuffle([listeningQ.es, ...wrong.map(x => x.es)]);
+      $("#view").innerHTML = `
+        <div class="menu-compact"><label style="display:block;font-weight:700;margin-bottom:8px;font-size:14px">Select Category</label>
+        <select onchange="changeCategory(this.value)">
+          ${["All Categories", ...Object.keys(vocab)].map(cat =>
+            `<option value="${cat}" ${state.category === cat ? "selected" : ""}>${cat}</option>`
+          ).join("")}
+        </select>
+        <h3 style="text-align:center;margin:6px 0 18px;font-size:18px;font-weight:700">🔊 Listen and Choose</h3>
+        <button class="audio-btn" onclick="playAudio()">🔊</button>
+        <div style="text-align:center;color:var(--muted);font-size:14px;margin-bottom:18px">Click to hear the phrase</div>
+        <div class="feedback" id="feedback"></div>
+        <div class="options" id="listening-options">
+          ${options.map(opt =>
+            `<div class="option" onclick="checkListening('${opt.replace(/'/g, "\\'")}')">${opt}</div>`
+          ).join("")}
+        </div>
+        <div class="controls">
+          <button class="btn" onclick="playAudio()">🔁 Play Again</button>
+          <button class="btn small" onclick="loadListeningQuestion()">⏭️ Skip</button>
+        </div>
+      `;
+      setTimeout(() => playAudio(), 300);
+    };
+    window.playAudio = () => speak(listeningQ.es.replace("____", ""));
+    window.loadListeningQuestion = () => loadListeningQuestion();
+    window.checkListening = (answer) => {
+      const isCorrect = answer === listeningQ.es;
+      if (isCorrect) {
+        $("#feedback").innerHTML = `✅ Correct! <span style="color:var(--muted);font-weight:500">(${listeningQ.en})</span>`;
+        $("#feedback").style.color = "var(--success)";
+      } else {
+        $("#feedback").innerHTML = `❌ Wrong! Answer: <strong>${listeningQ.es}</strong> <span style="color:var(--muted);font-weight:500">(${listeningQ.en})</span>`;
+        $("#feedback").style.color = "var(--error)";
+      }
+      $$("#listening-options .option").forEach(el => {
+        el.style.pointerEvents = "none";
+        if (el.textContent === listeningQ.es) el.classList.add("correct");
+        if (el.textContent === answer && !isCorrect) el.classList.add("wrong");
+      });
+      setTimeout(() => loadListeningQuestion(), 2200);
+    };
+    // === QUIZ (Spanish -> English) ===
+    // ===== Tests (25 / 50 / 75 questions) =====
+    const startTest = (n) => {
+      const pool = getTestItems();
+      const total = n;
+      quiz.testLength = n;
+      quiz.totalQuestions = n;
+      quiz.asked = shuffle(pool).slice(0, total);
+      quiz.idx = 0;
+      quiz.correct = 0;
+      quiz.answers = [];
+      quiz.active = true;
+      renderQuiz();
+    };
+    window.startTest = startTest; // Expose to window for onclick handlers
+const renderQuiz = () => {
+      if (!quiz.active) return renderQuizMenu();
+      if (quiz.idx >= quiz.asked.length) return renderQuizResults();
+      return renderQuizQuestion();
+    };
+    const renderQuizMenu = () => {
+      const items = (quiz.asked && quiz.asked.length) ? quiz.asked : getTestItems();
+      const half = Math.ceil(items.length / 2);
+      $("#view").innerHTML = `
+        <div class="menu-compact"><label style="display:block;font-weight:700;margin-bottom:8px;font-size:14px">Select Category</label>
+        <select onchange="changeCategory(this.value)">
+          ${["All Categories", ...Object.keys(vocab)].map(cat =>
+            `<option value="${cat}" ${state.category === cat ? "selected" : ""}>${cat}</option>`
+          ).join("")}
+        </select>
+        <h3 style="text-align:center;margin-bottom:12px;font-size:18px;font-weight:700">📝 Quiz Mode</h3>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 16px 0;justify-content:center">
+        <button class="btn primary" onclick="startTest(25)" style="padding:14px 20px">
+          📊 Small Test<br>
+          <span style="font-size:13px;font-weight:normal;opacity:0.9">25 questions</span>
+        </button>
+        <button class="btn primary" onclick="startTest(50)" style="padding:14px 20px">
+          📝 Medium Test<br>
+          <span style="font-size:13px;font-weight:normal;opacity:0.9">50 questions</span>
+        </button>
+        <button class="btn primary" onclick="startTest(75)" style="padding:14px 20px">
+          🎯 Large Test<br>
+          <span style="font-size:13px;font-weight:normal;opacity:0.9">75 questions</span>
+        </button>
+      </div>
+      <div style="text-align:center;margin:10px 0">
+        <span style="color:var(--muted);font-size:13px">
+          ${quiz.active ? `Current test: <strong>${quiz.testLength} questions</strong>` : 'Choose a test size above'}
+        </span>
+      </div>
+        <p style="text-align:center;color:var(--muted);margin-bottom:22px">Choose a quiz length (Spanish → English).</p>
+        <div class="how-to-box">
+          <strong>How to play:</strong>
+          <ul class="how-to-steps">
+            <li>1️⃣ Read the Spanish phrase.</li>
+            <li>2️⃣ Tap the correct English meaning.</li>
+            <li>3️⃣ Try to beat your streak 🔥</li>
+          </ul>
+        </div>
+      `;
+    };
+    window.startQuiz = (mode) => {
+      
+      // clamp requested count to available items
+      const requested = (typeof n === 'number' && n > 0) ? n : quizState.targetCount;
+      const available = (state && state.deck && state.deck.length) ? state.deck.length : 0;
+      quizState.targetCount = Math.min(requested, Math.max(10, available || requested));
+const items = (quiz.asked && quiz.asked.length) ? quiz.asked : getTestItems();
+      const deck = shuffle(items);
+      quiz.asked = (mode === "half") ? deck.slice(0, Math.ceil(items.length / 2)) : deck;
+      quiz.idx = 0;
+      quiz.correct = 0;
+      quiz.answers = [];
+      quiz.active = true;
+      renderQuizQuestion();
+    };
+    const renderQuizQuestion = () => {
+      const item = quiz.asked[quiz.idx];
+      const allEn = [...new Set(getItems().map(x => x.en))]; // keep options relevant to category
+      const wrong = shuffle(allEn.filter(x => x !== item.en)).slice(0, 3);
+      const options = shuffle([item.en, ...wrong]);
+      const progress = Math.round((quiz.idx / quiz.asked.length) * 100);
+      $("#view").innerHTML = `
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px">
+            <span style="color:var(--muted)">Question ${quiz.idx + 1} of ${quiz.asked.length}</span>
+            <span style="font-weight:700;color:var(--primary)">${progress}% Complete</span>
+          </div>
+          <div style="background:var(--bg);height:8px;border-radius:4px;overflow:hidden">
+            <div style="background:var(--primary);height:100%;width:${progress}%;transition:width 0.3s"></div>
+          </div>
+        </div>
+        <div class="prompt">${item.es}</div>
+        ${item.note ? `<div style="text-align:center;margin:-8px 0 10px"><span class="tag">${item.note}</span></div>` : ""}
+        <div class="controls" style="margin-top:0;margin-bottom:10px">
+          <button class="btn small" onclick="speakQuiz()">🔊 Listen</button>
+        </div>
+        <div class="feedback" id="quiz-feedback"></div>
+        <div class="options" id="quiz-options">
+          ${options.map(opt =>
+            `<div class="option" onclick="answerQuiz('${opt.replace(/'/g, "\\'")}')">${opt}</div>`
+          ).join("")}
+        </div>
+      `;
+    };
+    window.speakQuiz = () => {
+      const item = quiz.asked[quiz.idx];
+      speak(item.es.replace("____", ""));
+    };
+    window.answerQuiz = (answer) => {
+      const item = quiz.asked[quiz.idx];
+      const isCorrect = answer === item.en;
+      if (isCorrect) {
+        quiz.correct++;
+        $("#quiz-feedback").textContent = "✅ Correct!";
+        $("#quiz-feedback").style.color = "var(--success)";
+      } else {
+        $("#quiz-feedback").innerHTML = `❌ Wrong! Answer: <strong>${item.en}</strong>`;
+        $("#quiz-feedback").style.color = "var(--error)";
+      }
+      $$("#quiz-options .option").forEach(el => {
+        el.style.pointerEvents = "none";
+        if (el.textContent === item.en) el.classList.add("correct");
+        if (el.textContent === answer && !isCorrect) el.classList.add("wrong");
+      });
+      quiz.answers.push({ es: item.es, correct: item.en, user: answer, ok: isCorrect });
+      setTimeout(() => {
+        quiz.idx++;
+        renderQuiz();
+      }, 1400);
+    };
+    const renderQuizResults = () => {
+      const pct = quiz.asked.length ? ((quiz.correct / quiz.asked.length) * 100).toFixed(1) : "0.0";
+      const grade = pct >= 90 ? "🏆 Excellent!" :
+                    pct >= 75 ? "🌟 Great Job!" :
+                    pct >= 60 ? "👍 Good!" :
+                    "💪 Keep Practicing!";
+      const wrong = quiz.answers.filter(a => !a.ok);
+      $("#view").innerHTML = `
+        <h3 style="text-align:center;font-size:24px;font-weight:700;margin-bottom:10px">Quiz Complete!</h3>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 16px 0;justify-content:center">
+        <button class="btn" onclick="startTest(25)">
+          📊 Small<br>
+          <span style="font-size:12px;font-weight:normal">25 questions</span>
+        </button>
+        <button class="btn" onclick="startTest(50)">
+          📝 Medium<br>
+          <span style="font-size:12px;font-weight:normal">50 questions</span>
+        </button>
+        <button class="btn" onclick="startTest(75)">
+          🎯 Large<br>
+          <span style="font-size:12px;font-weight:normal">75 questions</span>
+        </button>
+      </div>
+        <div style="text-align:center;margin-bottom:22px">
+          <div style="font-size:48px;font-weight:800;color:var(--primary);margin-bottom:8px">${pct}%</div>
+          <div style="font-size:20px;margin-bottom:10px">${grade}</div>
+          <div style="font-size:16px;color:var(--muted)">${quiz.correct} out of ${quiz.asked.length} correct</div>
+        </div>
+        ${wrong.length ? `
+          <details style="background:white;padding:16px;border-radius:8px;border:1px solid var(--border);margin-bottom:20px">
+            <summary style="cursor:pointer;font-weight:700;color:var(--text)">Review Mistakes (${wrong.length})</summary>
+            <div style="margin-top:16px">
+              ${wrong.map(a => `
+                <div style="padding:12px;background:var(--bg);border-radius:6px;margin-bottom:8px">
+                  <div style="font-weight:700;margin-bottom:4px">${a.es}</div>
+                  <div style="font-size:14px;color:var(--error)">Your answer: ${a.user}</div>
+                  <div style="font-size:14px;color:var(--success)">Correct: ${a.correct}</div>
+                </div>
+              `).join("")}
+            </div>
+          </details>
+        ` : ""}
+        <div class="controls">
+          <button class="btn primary" onclick="retakeQuiz()">🔄 Retake</button>
+          <button class="btn" onclick="backToQuizMenu()">← Back to Menu</button>
+        </div>
+      `;
+    };
+    window.retakeQuiz = () => {
+      const len = quiz.asked.length;
+      // if user took "half", keep half-ish; else full
+      const items = (quiz.asked && quiz.asked.length) ? quiz.asked : getTestItems();
+      const mode = (len <= Math.ceil(items.length / 2)) ? "half" : "full";
+      startQuiz(mode);
+    };
+    window.backToQuizMenu = () => {
+      quiz.active = false;
+      quiz.asked = [];
+      quiz.idx = 0;
+      quiz.correct = 0;
+      quiz.answers = [];
+      renderQuizMenu();
+    };
+    // === GREETINGS & FAREWELLS GAME ===
+    const greetingsGameState = {
+      currentPhrase: null,
+      selectedWords: [],
+      allPhrases: [],
+      currentIndex: 0,
+      score: 0
+    };
+    
+    const renderGreetings = () => {
+      // Combine all greetings, questions, and farewells
+      const allPhrases = [
+        ...(vocab["Saludos (Greetings)"] || []),
+        ...(vocab["Preguntas (Questions)"] || []),
+        ...(vocab["Despedidas (Farewells)"] || [])
+      ];
+      
+      if (!greetingsGameState.currentPhrase && allPhrases.length > 0) {
+        greetingsGameState.allPhrases = shuffle(allPhrases); // Shuffle the phrases
+        loadNewGreetingPhrase();
+      }
+      
+      const phrase = greetingsGameState.currentPhrase;
+      if (!phrase) {
+        $("#view").innerHTML = `<div style="text-align:center;padding:40px">No phrases available</div>`;
+        return;
+      }
+      
+      const words = phrase.es.split(' ');
+      const scrambledWords = [...words].sort(() => Math.random() - 0.5);
+      
+      const selectedHTML = greetingsGameState.selectedWords.length > 0
+        ? greetingsGameState.selectedWords.map((word, idx) => 
+            `<span class="chip" onclick="removeGreetingWord(${idx})" style="background:var(--primary);color:white;border-color:var(--primary)">${word}</span>`
+          ).join('')
+        : `<span style="color:var(--muted);font-size:14px">Click the words below to build the phrase...</span>`;
+      
+      const availableHTML = scrambledWords.map((word, idx) => {
+        const isUsed = greetingsGameState.selectedWords.includes(word) && 
+                       greetingsGameState.selectedWords.filter(w => w === word).length >= 
+                       words.filter(w => w === word).length;
+        return `<span class="chip ${isUsed ? 'disabled' : ''}" 
+                      onclick="${isUsed ? '' : `addGreetingWord('${word.replace(/'/g, "\\'")}')`}"
+                      style="${isUsed ? 'opacity:0.3' : ''}">${word}</span>`;
+      }).join('');
+      
+      let html = `
+        <div style="max-width:800px;margin:0 auto">
+          <h2 style="font-size:28px;font-weight:800;margin-bottom:12px;text-align:center">🎮 Greetings Game</h2>
+          <p style="text-align:center;color:var(--muted);margin-bottom:24px">Order the words to form the correct Spanish phrase!</p>
+          
+          <div style="background:var(--bg);padding:24px;border-radius:12px;border:1px solid var(--border);margin-bottom:24px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+              <span style="font-weight:700;font-size:14px">Phrase ${greetingsGameState.currentIndex + 1} of ${greetingsGameState.allPhrases.length}</span>
+              <span style="font-weight:700;font-size:14px;color:var(--primary)">Score: ${greetingsGameState.score}</span>
+            </div>
+            
+            <div style="background:white;padding:20px;border-radius:12px;margin-bottom:20px;border:2px solid var(--border)">
+              <div style="font-weight:700;margin-bottom:8px;color:var(--text)">English clue:</div>
+              <div style="font-size:20px;font-weight:600;color:var(--primary)">${phrase.en}</div>
+              ${phrase.note ? `<span style="display:inline-block;margin-top:8px;font-size:11px;padding:4px 10px;background:var(--warning);color:white;border-radius:12px;font-weight:600">${phrase.note}</span>` : ''}
+            </div>
+            
+            <div style="margin-bottom:16px">
+              <div style="font-weight:700;margin-bottom:8px">Your answer:</div>
+              <div class="chips dropzone" style="min-height:80px;display:flex;align-items:center;justify-content:center">
+                ${selectedHTML}
+              </div>
+            </div>
+            
+            <div style="margin-bottom:20px">
+              <div style="font-weight:700;margin-bottom:8px">Available words:</div>
+              <div class="chips" style="background:var(--card)">
+                ${availableHTML}
+              </div>
+            </div>
+            
+            <div id="greetingFeedback" style="margin-bottom:16px;min-height:30px"></div>
+            
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+              <button class="btn" onclick="clearGreetingAnswer()">🔄 Clear</button>
+              <button class="btn primary" onclick="checkGreetingAnswer()">✅ Check Answer</button>
+              <button class="btn" onclick="speakGreeting()">🔊 Listen</button>
+              <button class="btn" onclick="nextGreetingPhrase()">⏭️ Next</button>
+            </div>
+          </div>
+          
+          <div style="text-align:center;padding:20px;background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(16,185,129,0.1));border-radius:12px">
+            <p style="font-size:14px;color:var(--muted);margin-bottom:12px">Practice all greetings and farewells by ordering the scrambled words!</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+              <button class="btn" onclick="setMode('flashcards')">🃏 Flashcards</button>
+              <button class="btn" onclick="setMode('quiz')">📝 Quiz</button>
+            </div>
+          </div>
+        </div>
+      `;
+      $("#view").innerHTML = html;
+    };
+    
+    const loadNewGreetingPhrase = () => {
+      if (greetingsGameState.currentIndex >= greetingsGameState.allPhrases.length) {
+        greetingsGameState.currentIndex = 0;
+      }
+      greetingsGameState.currentPhrase = greetingsGameState.allPhrases[greetingsGameState.currentIndex];
+      greetingsGameState.selectedWords = [];
+    };
+    
+    window.addGreetingWord = (word) => {
+      greetingsGameState.selectedWords.push(word);
+      renderGreetings();
+    };
+    
+    window.removeGreetingWord = (index) => {
+      greetingsGameState.selectedWords.splice(index, 1);
+      renderGreetings();
+    };
+    
+    window.clearGreetingAnswer = () => {
+      greetingsGameState.selectedWords = [];
+      $("#greetingFeedback").innerHTML = '';
+      renderGreetings();
+    };
+    
+    window.checkGreetingAnswer = () => {
+      const userAnswer = greetingsGameState.selectedWords.join(' ');
+      const correctAnswer = greetingsGameState.currentPhrase.es;
+      
+      const normalize = (s) => s.toLowerCase().replace(/[¡!¿?.,]/g, '').trim();
+      const isCorrect = normalize(userAnswer) === normalize(correctAnswer);
+      
+      if (isCorrect) {
+        greetingsGameState.score += 10;
+        $("#greetingFeedback").innerHTML = `
+          <div style="padding:16px;background:rgba(16,185,129,0.1);border:2px solid var(--success);border-radius:12px;text-align:center">
+            <span style="font-size:24px">✅</span>
+            <div style="font-size:18px;font-weight:700;color:var(--success);margin-top:8px">¡Correcto!</div>
+            <div style="font-size:14px;color:var(--muted);margin-top:4px">+10 points</div>
+          </div>
+        `;
+      } else {
+        $("#greetingFeedback").innerHTML = `
+          <div style="padding:16px;background:rgba(239,68,68,0.1);border:2px solid var(--error);border-radius:12px;text-align:center">
+            <span style="font-size:24px">❌</span>
+            <div style="font-size:18px;font-weight:700;color:var(--error);margin-top:8px">Not quite!</div>
+            <div style="font-size:14px;color:var(--muted);margin-top:4px">Correct answer: <strong>${correctAnswer}</strong></div>
+          </div>
+        `;
+      }
+    };
+    
+    window.revealGreetingAnswer = () => {
+      const correctAnswer = greetingsGameState.currentPhrase.es;
+      $("#greetingFeedback").innerHTML = `
+        <div style="padding:16px;background:rgba(99,102,241,0.1);border:2px solid var(--primary);border-radius:12px;text-align:center">
+          <span style="font-size:24px">👀</span>
+          <div style="font-size:18px;font-weight:700;color:var(--primary);margin-top:8px">Answer:</div>
+          <div style="font-size:16px;color:var(--text);margin-top:8px;font-weight:600">${correctAnswer}</div>
+        </div>
+      `;
+    };
+    
+    window.speakGreeting = () => {
+      speak(greetingsGameState.currentPhrase.es);
+    };
+    
+    window.nextGreetingPhrase = () => {
+      greetingsGameState.currentIndex += 1;
+      if (greetingsGameState.currentIndex >= greetingsGameState.allPhrases.length) {
+        greetingsGameState.currentIndex = 0;
+        // Show completion message
+        $("#greetingFeedback").innerHTML = `
+          <div style="padding:20px;background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(16,185,129,0.1));border-radius:12px;text-align:center">
+            <span style="font-size:48px">🎉</span>
+            <div style="font-size:24px;font-weight:700;margin-top:12px">You completed all phrases!</div>
+            <div style="font-size:16px;color:var(--muted);margin-top:8px">Final Score: ${greetingsGameState.score}</div>
+            <div style="margin-top:16px">Starting over with new random order...</div>
+          </div>
+        `;
+        setTimeout(() => {
+          greetingsGameState.score = 0;
+          greetingsGameState.allPhrases = shuffle(greetingsGameState.allPhrases); // Reshuffle for next round
+          loadNewGreetingPhrase();
+          renderGreetings();
+        }, 2000);
+        return;
+      }
+      loadNewGreetingPhrase();
+      $("#greetingFeedback").innerHTML = '';
+      renderGreetings();
+    };
+    
+    // === DATABASE ===
+    const renderDatabase = () => {
+      // Shared state for the adjectives filter
+      if (!window.__adjDbState) window.__adjDbState = { category: "All Categories" };
+      const adjCats = Object.keys(adjectives || {});
+      const adjCatOptions = ["All Categories", ...adjCats];
+      const adjCurrent = window.__adjDbState.category;
+      let html = `
+        <div class="db-area">
+<h3 style="font-size:18px;font-weight:700;margin-bottom:16px">Greetings &amp; Farewells</h3>
+        <div style="margin-bottom:18px">
+          <h4 style="margin:0 0 10px 0;font-size:15px;font-weight:700">Greetings &amp; Farewells</h4>
+          <div class="table-container"><table>
+            <thead><tr><th>Spanish</th><th>English</th><th>Notes</th></tr></thead>
+            <tbody>
+      `;
+      Object.keys(vocab).forEach(cat => {
+        html += ``;
+        vocab[cat].forEach(item => {
+          html += `<tr>
+            <td><strong>${item.es}</strong></td>
+            <td>${item.en}</td>
+            <td>${item.note ? item.note : ""}</td>
+          </tr>`;
+        });
+      });
+      html += `
+            </tbody>
+          </table></div>
+        <div style="margin-top:24px">
+          <h4 style="margin:0 0 10px 0;font-size:15px;font-weight:700">Nouns</h4>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr><th>Spanish</th><th>English</th></tr>
+              </thead>
+              <tbody>
+<tr><td><strong>el abuelo</strong></td><td>grandfather</td></tr>
+<tr><td><strong>el agua</strong></td><td>water</td></tr>
+<tr><td><strong>el amigo</strong></td><td>friend (male)</td></tr>
+<tr><td><strong>el salón de clases</strong></td><td>classroom</td></tr>
+<tr><td><strong>el baño</strong></td><td>bathroom</td></tr>
+<tr><td><strong>el bebé</strong></td><td>baby</td></tr>
+<tr><td><strong>el borrador</strong></td><td>eraser</td></tr>
+<tr><td><strong>el coche</strong></td><td>car</td></tr>
+<tr><td><strong>el compañero</strong></td><td>classmate (male)</td></tr>
+<tr><td><strong>el conejo</strong></td><td>rabbit</td></tr>
+<tr><td><strong>el elefante</strong></td><td>elephant</td></tr>
+<tr><td><strong>el esposo</strong></td><td>husband</td></tr>
+<tr><td><strong>el estudiante</strong></td><td>student</td></tr>
+<tr><td><strong>el examen</strong></td><td>test/exam</td></tr>
+<tr><td><strong>el gato</strong></td><td>cat</td></tr>
+<tr><td><strong>el grupo</strong></td><td>group</td></tr>
+<tr><td><strong>el león</strong></td><td>lion</td></tr>
+<tr><td><strong>el libro</strong></td><td>book</td></tr>
+<tr><td><strong>el lápiz</strong></td><td>pencil</td></tr>
+<tr><td><strong>el maestro</strong></td><td>teacher (male)</td></tr>
+<tr><td><strong>el nieto</strong></td><td>grandson</td></tr>
+<tr><td><strong>el niño</strong></td><td>child/boy</td></tr>
+<tr><td><strong>el oso</strong></td><td>bear</td></tr>
+<tr><td><strong>el padre</strong></td><td>father</td></tr>
+<tr><td><strong>el papá</strong></td><td>dad</td></tr>
+<tr><td><strong>el pez</strong></td><td>fish</td></tr>
+<tr><td><strong>el pollo</strong></td><td>chicken</td></tr>
+<tr><td><strong>el primo</strong></td><td>cousin (male)</td></tr>
+<tr><td><strong>el profesor</strong></td><td>teacher/professor (male)</td></tr>
+<tr><td><strong>el pájaro</strong></td><td>bird</td></tr>
+<tr><td><strong>el ratón</strong></td><td>mouse</td></tr>
+<tr><td><strong>el reloj</strong></td><td>watch/clock</td></tr>
+<tr><td><strong>el señor</strong></td><td>man (Mr.)</td></tr>
+<tr><td><strong>el teléfono</strong></td><td>phone</td></tr>
+<tr><td><strong>el tigre</strong></td><td>tiger</td></tr>
+<tr><td><strong>el toro</strong></td><td>bull</td></tr>
+<tr><td><strong>el tío</strong></td><td>uncle</td></tr>
+<tr><td><strong>el vecino</strong></td><td>neighbor (male)</td></tr>
+<tr><td><strong>la amiga</strong></td><td>friend (female)</td></tr>
+<tr><td><strong>la cama</strong></td><td>bed</td></tr>
+<tr><td><strong>la chica</strong></td><td>girl</td></tr>
+<tr><td><strong>la cocina</strong></td><td>kitchen</td></tr>
+<tr><td><strong>la compañera</strong></td><td>classmate (female)</td></tr>
+<tr><td><strong>la escuela</strong></td><td>school</td></tr>
+<tr><td><strong>la gallina</strong></td><td>hen</td></tr>
+<tr><td><strong>la gente</strong></td><td>people</td></tr>
+<tr><td><strong>la hija</strong></td><td>daughter</td></tr>
+<tr><td><strong>la madre</strong></td><td>mother</td></tr>
+<tr><td><strong>la maestra</strong></td><td>teacher (female)</td></tr>
+<tr><td><strong>la mamá</strong></td><td>mom</td></tr>
+<tr><td><strong>la manzana</strong></td><td>apple</td></tr>
+<tr><td><strong>la mariposa</strong></td><td>butterfly</td></tr>
+<tr><td><strong>la mesa</strong></td><td>desk/table</td></tr>
+<tr><td><strong>la mochila</strong></td><td>backpack</td></tr>
+<tr><td><strong>la persona</strong></td><td>person</td></tr>
+<tr><td><strong>la prima</strong></td><td>cousin (female)</td></tr>
+<tr><td><strong>la profesora</strong></td><td>teacher/professor (female)</td></tr>
+<tr><td><strong>la puerta</strong></td><td>door</td></tr>
+<tr><td><strong>la rana</strong></td><td>frog</td></tr>
+<tr><td><strong>la ropa</strong></td><td>clothes</td></tr>
+<tr><td><strong>la señora</strong></td><td>woman (Mrs.)</td></tr>
+<tr><td><strong>la silla</strong></td><td>chair</td></tr>
+<tr><td><strong>la tortuga</strong></td><td>turtle</td></tr>
+<tr><td><strong>la tía</strong></td><td>aunt</td></tr>
+<tr><td><strong>la vecina</strong></td><td>neighbor (female)</td></tr>
+<tr><td><strong>la ventana</strong></td><td>window</td></tr>
+<tr><td><strong>los zapatos</strong></td><td>shoes</td></tr>
+</tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+        <div style="margin-top:10px">
+        <div style="margin-top:24px">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px">
+            <h4 style="margin:0;font-size:15px;font-weight:700">Adjectives</h4>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <span style="font-size:13px;font-weight:700;color:var(--muted)">Category</span>
+              <select onchange="window.__adjDbState.category=this.value; renderDatabase();" style="min-width:220px;margin:0">
+                ${adjCatOptions.map(c => `<option value="${c}" ${c===adjCurrent?'selected':''}>${c}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+          <div class="table-container"><table>
+            <thead><tr><th>English</th><th>Masculine</th><th>Feminine</th></tr></thead>
+            <tbody>
+      `;
+      const addAdjCat = (cat) => {
+        html += ``;
+        (adjectives[cat] || []).forEach(item => {
+          html += `<tr>
+            <td>${item.wordEn}</td>
+            <td><strong>${item.masculine}</strong></td>
+            <td><strong>${item.feminine}</strong></td>
+          </tr>`;
+        });
+      };
+      if (adjCurrent === "All Categories") adjCats.forEach(addAdjCat);
+      else addAdjCat(adjCurrent);
+      html += `
+            </tbody>
+          </table></div>
+        </div>
+      `;
+            html += `</div>`;
+$("#view").innerHTML = html;
+    };
+    // Scramble helpers
+    const normalize = (s) => (s || "")
+      .toLowerCase()
+      .replace(/[¡!¿\?.,]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    const scrambleState = {
+      target: null,
+      clue: "",
+      words: [],
+      chosen: []
+    };
+    // ===== Form the Phrase helpers (parts of speech + feedback) =====
+    const stripPunct = (w) => (w || "").toLowerCase().replace(/[¡!¿?.,;:]/g, "");
+    const ARTICLES = new Set(["el","la","los","las","un","una","unos","unas"]);
+    const VERBS = new Set(["es","son","está","esta","están","estan"]);
+    const ADJ_FORMS = (() => {
+      const s = new Set();
+      try {
+        Object.keys(adjectives).forEach(cat => {
+          adjectives[cat].forEach(it => {
+            s.add(stripPunct(it.masculine));
+            s.add(stripPunct(it.feminine));
+          });
+        });
+      } catch(e) {}
+      return s;
+    })();
+    const isAdjLike = (w) => {
+      const x = stripPunct(w);
+      if (ADJ_FORMS.has(x)) return true;
+      // simple plural support: nuevos/nuevas/rojos/rojas, etc.
+      if (x.endsWith("s") && ADJ_FORMS.has(x.slice(0, -1))) return true;
+      return false;
+    };
+    const getWordRole = (w) => {
+      const x = stripPunct(w);
+      if (ARTICLES.has(x)) return "article";
+      if (VERBS.has(x)) return "verb";
+      if (isAdjLike(x)) return "adj";
+      return "noun";
+    };
+    const withRoleClass = (w) => `role-${getWordRole(w)}`;
+    const tokens = (s) => (s || "").split(" ").filter(Boolean);
+    const multiset = (arr) => {
+      const m = new Map();
+      arr.forEach(w => {
+        const k = stripPunct(w);
+        m.set(k, (m.get(k) || 0) + 1);
+      });
+      return m;
+    };
+    const msEqual = (a, b) => {
+      if (a.size !== b.size) return false;
+      for (const [k,v] of a.entries()) if (b.get(k) !== v) return false;
+      return true;
+    };
+    const pickFirst = (arr, pred) => arr.find(pred);
+    const buildExplanation = (guess, target) => {
+      const g = tokens(guess);
+      const t = tokens(target);
+      const gms = multiset(g);
+      const tms = multiset(t);
+      const msgs = [];
+      if (!msEqual(gms, tms)) {
+        // missing / extra
+        const missing = [];
+        for (const [k,v] of tms.entries()) {
+          const gv = gms.get(k) || 0;
+          if (gv < v) missing.push(k);
+        }
+        const extra = [];
+        for (const [k,v] of gms.entries()) {
+          const tv = tms.get(k) || 0;
+          if (tv < v) extra.push(k);
+        }
+        if (missing.length) msgs.push(`Missing word(s): <strong>${missing.join(", ")}</strong>.`);
+        if (extra.length) msgs.push(`Extra word(s): <strong>${extra.join(", ")}</strong>.`);
+      } else if (normalize(guess) !== normalize(target)) {
+        msgs.push("All the right words — check the <strong>word order</strong>.");
+      }
+      // verb feedback
+      const tVerb = pickFirst(t, w => getWordRole(w) === "verb");
+      const gVerb = pickFirst(g, w => getWordRole(w) === "verb");
+      if (tVerb && gVerb && stripPunct(tVerb) !== stripPunct(gVerb)) {
+        msgs.push(`Check the verb: it should be <strong>${tVerb}</strong>.`);
+      }
+      // plural agreement hint (very basic)
+      const tArt = pickFirst(t, w => stripPunct(w) === "los" || stripPunct(w) === "las");
+      const tAdj = pickFirst(t, w => getWordRole(w) === "adj");
+      const gAdj = pickFirst(g, w => getWordRole(w) === "adj");
+      if (tArt && tAdj && gAdj) {
+        const ta = stripPunct(tAdj), ga = stripPunct(gAdj);
+        if (ta.endsWith("s") && !ga.endsWith("s")) {
+          msgs.push("Plural noun → adjective should usually be plural (ends in <strong>-s</strong>).");
+        }
+      }
+      return msgs;
+    };
+    const newScramble = () => {
+      const items = formPhraseItems;
+      const picked = items[Math.floor(Math.random() * items.length)];
+      scrambleState.target = picked.es;
+      scrambleState.clue = picked.en + (picked.note ? ` (${picked.note})` : "");
+      scrambleState.words = shuffle(picked.es.split(" "));
+      scrambleState.chosen = [];
+      renderScramble();
+    };
+    const pickWord = (i) => {
+      if (scrambleState.chosen.includes(i)) return;
+      scrambleState.chosen.push(i);
+      renderScramble(false);
+    };
+    const unpickWord = (slotIndex) => {
+      scrambleState.chosen.splice(slotIndex, 1);
+      renderScramble(false);
+    };
+    const builtPhrase = () => scrambleState.chosen.map(i => scrambleState.words[i]).join(" ");
+    const checkScramble = () => {
+      const guess = builtPhrase();
+      state.total += 1;
+      const ok = normalize(guess) === normalize(scrambleState.target);
+      if (ok) {
+        state.correct += 1;
+        state.streak += 1;
+        $("#scrambleFeedback").innerHTML = `
+          <div class="feedback success">
+            ✅ Correct! <span class="muted">${scrambleState.target}</span>
+          </div>`;
+      } else {
+        state.streak = 0;
+        const why = buildExplanation(guess, scrambleState.target);
+        $("#scrambleFeedback").innerHTML = `
+          <div class="feedback error">
+            ❌ Not quite yet.
+            ${why && why.length ? `<ul style="margin:10px 0 0 18px">${why.map(m => `<li>${m}</li>`).join("")}</ul>` : `<div class="muted" style="margin-top:8px">Try again or reveal.</div>`}
+          </div>`;
+      }
+      updateStats();
+    };
+    const revealScramble = () => {
+      $("#scrambleFeedback").innerHTML = `<div class="feedback neutral">👀 Answer: <strong>${scrambleState.target}</strong></div>`;
+    };
+    const renderScramble = (full = true) => {
+      if (!scrambleState.target) newScramble();
+      const chosenWords = scrambleState.chosen.map((idx, slot) =>
+        `<span class="chip ${withRoleClass(scrambleState.words[idx])}" onclick="unpickWord(${slot})">${scrambleState.words[idx]}</span>`
+      ).join("");
+      const availableWords = scrambleState.words.map((w, i) => {
+        const used = scrambleState.chosen.includes(i);
+        return `<span class="chip ${withRoleClass(w)} ${used ? "disabled" : ""}" onclick="${used ? "" : `pickWord(${i})`}">${w}</span>`;
+      }).join("");
+      const top = "";
+      if (full) {
+        $("#view").innerHTML = `
+          <div class="form-area">
+          ${top}
+          <h3 style="font-size:18px;font-weight:800;margin:14px 0 6px">Form the Phrase</h3>
+          <div class="hint"><strong>English:</strong> ${scrambleState.clue}</div>
+          <div id="formCounters" style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0 0 0;color:var(--muted);font-size:13px">
+            <span><strong>Correct:</strong> ${state.correct}</span>
+            <span><strong>Incorrect:</strong> ${Math.max(0, state.total - state.correct)}</span>
+            <span><strong>Total:</strong> ${state.total}</span>
+          </div>
+          <div class="hint">Click the Spanish words to put them in the correct order.</div>
+          <div style="margin-top:12px">
+            <div style="font-weight:700">English clue:</div>
+            <div style="margin-top:6px">${scrambleState.clue}</div>
+          </div>
+          <div style="margin-top:14px">
+            <div style="font-weight:700">Your phrase:</div>
+            <div class="dropzone chips" id="chosenZone">
+              ${chosenWords || `<span class="hint">Click words below to build the phrase…</span>`}
+            </div>
+          </div>
+          <div style="margin-top:14px">
+            <div style="font-weight:700">Words:</div>
+            <div class="chips" id="wordsZone">${availableWords}</div>
+          </div>
+          <div class="actions" style="margin-top:16px">
+            <button class="btn" onclick="newScramble()">New 🔁</button>
+            <button class="btn primary primary" onclick="checkScramble()">Check ✅</button>
+            <button class="btn" onclick="revealScramble()">Reveal 👀</button>
+          </div>
+          <div id="scrambleFeedback" style="margin-top:14px"></div>
+          </div>
+        `;
+      } else {
+        $("#chosenZone").innerHTML = chosenWords || `<span class="hint">Click words below to build the phrase…</span>`;
+        $("#wordsZone").innerHTML = availableWords;
+      }
+    };
+    window.newScramble = newScramble;
+    window.pickWord = pickWord;
+    window.unpickWord = unpickWord;
+    window.checkScramble = checkScramble;
+    window.revealScramble = revealScramble;
+    window.renderScramble = renderScramble;
+    window.resetScramble = () => { scrambleState.target = null; };
+    // Init
+    renderTabs();
+    setMode("flashcards");
+    updateStats();
+    initTheme();
+</script>
+</body>
+</html>
